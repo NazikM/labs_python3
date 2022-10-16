@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Обробка даних форми</title>
+</head>
+<body>
+    <form action="/cgi-bin/form.py" method = "post">
+        Name: <input type="text" name="firstname">
+        Surname: <input type="text" name="secondname">
+    <br>
+        <br>
+        Gender:
+        <select name="dropdown">
+            <option value="man" selected>Man</option>
+            <option value="women">Women</option>
+            <option value="other_gender">Other</option>
+        </select>
+    <br>
+    <p>Favorite programming languages</p>
+    <input type="checkbox" name="python" value="python"> Python
+    <input type="checkbox" name="js" value="js"> Js
+    <input type="checkbox" name="java" value="java"> Java
+    <input type="checkbox" name="other_lang" value="other_lang"> Other
+    <br><br>
+    <input type="submit">
+    </form>
+</body>
+</html>
