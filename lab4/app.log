@@ -1,0 +1,25 @@
+werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+werkzeug - INFO - [33mPress CTRL+C to quit[0m
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:31:34] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:31:34] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:31:39] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:31:39] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+werkzeug - INFO - [33mPress CTRL+C to quit[0m
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:58:43] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:58:43] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+root - INFO - Дані успішно відправлено: Nazar Maru marusinnazar@gmail.com
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:58:48] "[32mPOST /contact HTTP/1.1[0m" 302 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:58:48] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:58:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:58:52] "GET / HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:58:52] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:58:52] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:58:53] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:59:08] "GET /delete_session HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:59:11] "GET / HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:59:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:59:13] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:59:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
