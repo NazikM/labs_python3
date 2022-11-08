@@ -64,8 +64,8 @@ def contact_info():
     return render_template('contact_info.html', contact_info_list=contact_info_list)
 
 
-@app.route('/delete_session')
-def delete_email():
-    session.pop('email', default=None)
-    session.pop('name', default=None)
-    return '<h1>Session deleted!</h1>'
+@app.route('/delete_contact_info/<int:number>', methods=['GET'])
+def delete_contact_info(number):
+    ContactInfo.query.filter_by(id=number).delete()
+    db.session.commit()
+    return '<h1>Successfully deleted!</h1>'

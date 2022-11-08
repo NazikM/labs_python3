@@ -23,3 +23,65 @@ werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:59:11] "GET / HTTP/1.1" 200 -
 werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:59:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
 werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:59:13] "GET /contact HTTP/1.1" 200 -
 werkzeug - INFO - 127.0.0.1 - - [31/Oct/2022 23:59:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+werkzeug - INFO - [33mPress CTRL+C to quit[0m
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:29:14] "GET / HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:29:14] "GET /static/css/style.css HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:29:15] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:29:17] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:29:18] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+root - WARNING - Не пройшла валідація з Post
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:30:08] "[32mPOST /contact HTTP/1.1[0m" 302 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:30:08] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:30:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:31:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+app - ERROR - Exception on /contact [POST]
+Traceback (most recent call last):
+  File "/mnt/e/myfiles/projects/University/python_3course/lab4/forms.py", line 24, in validate_phone
+    input_number = phonenumbers.parse(field.data)
+  File "/home/nazar/.local/lib/python3.10/site-packages/phonenumbers/phonenumberutil.py", line 2926, in parse
+    raise NumberParseException(NumberParseException.NOT_A_NUMBER,
+phonenumbers.phonenumberutil.NumberParseException: (1) The string supplied did not seem to be a phone number.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/mnt/e/myfiles/projects/University/python_3course/lab4/app.py", line 36, in contact
+    if form.validate_on_submit():
+  File "/usr/local/lib/python3.10/site-packages/flask_wtf/form.py", line 86, in validate_on_submit
+    return self.is_submitted() and self.validate()
+  File "/usr/local/lib/python3.10/site-packages/wtforms/form.py", line 329, in validate
+    return super().validate(extra)
+  File "/usr/local/lib/python3.10/site-packages/wtforms/form.py", line 146, in validate
+    if not field.validate(self, extra):
+  File "/usr/local/lib/python3.10/site-packages/wtforms/fields/core.py", line 242, in validate
+    stop_validation = self._run_validation_chain(form, chain)
+  File "/usr/local/lib/python3.10/site-packages/wtforms/fields/core.py", line 262, in _run_validation_chain
+    validator(form, self)
+  File "/mnt/e/myfiles/projects/University/python_3course/lab4/forms.py", line 28, in validate_phone
+    input_number = phonenumbers.parse("+38" + field.data)
+  File "/home/nazar/.local/lib/python3.10/site-packages/phonenumbers/phonenumberutil.py", line 2926, in parse
+    raise NumberParseException(NumberParseException.NOT_A_NUMBER,
+phonenumbers.phonenumberutil.NumberParseException: (1) The string supplied did not seem to be a phone number.
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:31:25] "[35m[1mPOST /contact HTTP/1.1[0m" 500 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:31:48] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:31:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+root - WARNING - Не пройшла валідація з Post
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:32:06] "[32mPOST /contact HTTP/1.1[0m" 302 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:32:06] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:32:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:32:09] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:32:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+root - INFO - Дані успішно відправлено: Nazar marusinnazar@gmail.com
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:32:25] "[32mPOST /contact HTTP/1.1[0m" 302 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:32:25] "GET /contact HTTP/1.1" 200 -
+werkzeug - INFO - 127.0.0.1 - - [01/Nov/2022 23:32:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
