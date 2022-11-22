@@ -62,8 +62,9 @@ def contact_info():
 @app.route('/delete_contact_info/<int:number>', methods=['GET'])
 def delete_contact_info(number):
     try:
-        ContactInfo.query.filter_by(id=number).delete()
-    except:
+        db.session.delete(ContactInfo.query.get_or_404(number))
         db.session.commit()
+    except:
         db.session.rollback()
+        return '<h1>Cannot delete!</h1>'
     return '<h1>Successfully deleted!</h1>'

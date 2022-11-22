@@ -39,6 +39,7 @@ def login():
             flash(f'Logged in as {form.email.data} !', category='success')
         else:
             flash(f'Not correct data passed!', category='danger')
+        return redirect(url_for("main"))
     return render_template('login.html', form=form)
 
 

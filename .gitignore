@@ -2,3 +2,4 @@ venv
 __pycache__
 .idea
 lab4_savka
+site.db
