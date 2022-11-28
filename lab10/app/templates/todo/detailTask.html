@@ -1,0 +1,45 @@
+{% extends 'main.html' %}
+
+{% block title %}Create task{% endblock %}
+{% block content %}
+    <h1>Task detail</h1>
+    <table class="table table-striped">
+      <tbody>
+        {% for label, data in task_detail.items() %}
+            <tr>
+              <td>{{ label }}</td>
+              <td>{{ data }}</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div style="display: none" id="edit">
+        {% from "_render_field.html" import render_field %}
+        <form method="post" action="{{ url_for('todo.update_task', task_id=task_id) }}">
+          {{ form.csrf_token }}
+          {{ render_field(form.title, class="form-control", value=task_detail['Title']) }}
+          {{ render_field(form.description, class="form-control", value=task_detail['Description']) }}
+          {{ render_field(form.deadline, class="form-control", value=task_detail['Deadline']) }}
+          {{ render_field(form.priority, class="form-control", value=task_detail['Priority']) }}
+          {{ render_field(form.progress, class="form-control") }}
+          {{ form.submit(class="btn btn-primary") }}
+        </form>
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='description') }}
+    </div>
+    <center>
+        <button type="button" onclick="editTask()" class="btn btn-info btn-lg">Edit</button>
+        <form action="{{ url_for('todo.delete_task', task_id=task_id) }}" method="post">
+            <button type="submit" class="btn btn-danger btn-lg">Delete</button>
+        </form>
+    </center>
+    <script>
+        function editTask(){
+            if (document.getElementById('edit').style.display === "none"){
+                document.getElementById('edit').style.display = 'block';
+            }else{
+                document.getElementById('edit').style.display = "none";
+            }
+        }
+    </script>
+{% endblock %}
