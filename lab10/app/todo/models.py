@@ -20,6 +20,12 @@ def tomorrow_date():
     return datetime.now() + timedelta(days=1)
 
 
+task_user = db.Table('task_user',
+                     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                     db.Column('task_id', db.Integer, db.ForeignKey('task.id'))
+                     )
+
+
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(128))
@@ -31,6 +37,8 @@ class Task(db.Model):
     progress = db.Column(db.Enum(Progress, values_callable=lambda x: [str(member.value) for member in Progress]))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    users = db.relationship('User', secondary=task_user, backref=db.backref('tasks', lazy='dynamic'), lazy='dynamic')
+    comments = db.relationship('Comment', backref='tasks', lazy='dynamic')
 
     def __repr__(self):
         return f"Task('{self.title}', '{self.progress}')"
@@ -43,3 +51,10 @@ class Category(db.Model):
 
     def __repr__(self):
         return f"Category('{self.name}')"
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    text = db.Column(db.String(2048))
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))

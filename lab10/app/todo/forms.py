@@ -33,3 +33,9 @@ class CategoryForm(FlaskForm):
                        [DataRequired("Please enter category name."),
                         Length(min=4, max=100, message='Це поле має бути довжиною між 4 та 10 символів')])
     submit = SubmitField("Send")
+
+
+class CommentForm(FlaskForm):
+    text = CKEditorField("Type your comment below",
+                         [Length(min=20, max=1000, message='Це поле має бути довжиною між 20 та 1000 символів')])
+    submit = SubmitField("Send")
