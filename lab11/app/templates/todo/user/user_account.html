@@ -2,10 +2,17 @@
 
 {% block title %}{{ user_info.username }} profile{% endblock %}
 {% block content %}
-<h1>{{ user_info.username }} profile</h1>
-<p>Email: {{ user_info.email }}</p>
-
-<h2>Tasks</h2>
+<div class="content-section">
+  <div class="media">
+      <img src="{{ image_file }}" alt="" class="rounded-circle account-img">
+      <div class="media-body">
+          <h2 class="account-heading">{{ user_info.username }}</h2>
+          <p class="text-secondary">{{ user_info.email }}</p>
+          <p class="text-secondary">{{ user_info.about_me }}</p>
+            <p class="text-secondary">{{ user_info.last_seen }}</p>
+      </div>
+  </div>
+  <h2>Tasks</h2>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -34,4 +41,5 @@
         {% endfor %}
       </tbody>
     </table>
+</div>
 {% endblock %}

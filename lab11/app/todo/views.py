@@ -218,13 +218,14 @@ def delete_category(cat_id):
     return redirect(url_for("todo.list_category"))
 
 
+
 @todo_bp.route('/user/profile/<int:user_id>')
 @login_required
 def user_profile(user_id):
     user_info = User.query.filter_by(id=user_id).first()
     task_list = user_info.tasks
-    # task_list = Task.query.filter(Task.users.any(id=user_id)).all()
-    return render_template('todo/user/user_account.html', user_info=user_info, task_list=task_list)
+    image_file = url_for('static', filename="images/" + user_info.image )
+    return render_template('todo/user/user_account.html', image_file=image_file, user_info=user_info, task_list=task_list)
 
 
 @todo_bp.route('/add_comment/<int:task_id>', methods=['POST'])
