@@ -13,7 +13,7 @@ from app.todo.models import Task, Category, Comment
 def create_task():
     form = TaskForm()
     if request.method == 'GET':
-        return render_template('todo/createTask.html', form=form)
+        return render_template('createTask.html', form=form)
 
     if form.validate_on_submit():
         title = form.title.data
@@ -48,7 +48,7 @@ def list_task():
     task_list = task_list.order_by(Task.deadline.asc())
     # task_list = Task.query.filter(Task.users.any(id=current_user.id)).all()
     # print(type(task_list[0].owner_id))
-    return render_template('todo/listTask.html', task_list=task_list)
+    return render_template('listTask.html', task_list=task_list)
 
 
 @todo_bp.route('/<int:task_id>', methods=['GET'])
@@ -71,7 +71,7 @@ def detail_task(task_id):
         'form_comment': form_comment,
         'comments': comments
     }
-    return render_template('todo/detailTask.html', task_detail=task_detail,
+    return render_template('detailTask.html', task_detail=task_detail,
                            task_id=task.id,
                            form=form,
                            assigned=task.users,
@@ -155,7 +155,7 @@ def delete_task(task_id):
 @login_required
 def list_category():
     cat_list = Category.query.all()
-    return render_template('todo/listCategory.html', cat_list=cat_list)
+    return render_template('listCategory.html', cat_list=cat_list)
 
 
 @todo_bp.route('/category/create', methods=['GET', 'POST'])
@@ -163,7 +163,7 @@ def list_category():
 def create_category():
     form = CategoryForm()
     if request.method == 'GET':
-        return render_template('todo/createCategory.html', form=form)
+        return render_template('createCategory.html', form=form)
 
     if form.validate_on_submit():
         name = form.name.data
@@ -186,7 +186,7 @@ def detail_category(cat_id):
         'Name': cat.name,
     }
     form = CategoryForm()
-    return render_template('todo/detailCategory.html', cat_detail=cat_detail, cat_id=cat.id, form=form)
+    return render_template('detailCategory.html', cat_detail=cat_detail, cat_id=cat.id, form=form)
 
 
 @todo_bp.route('/category/<int:cat_id>/update', methods=['POST'])
@@ -225,7 +225,7 @@ def user_profile(user_id):
     user_info = User.query.filter_by(id=user_id).first()
     task_list = user_info.tasks
     image_file = url_for('static', filename="images/" + user_info.image )
-    return render_template('todo/user/user_account.html', image_file=image_file, user_info=user_info, task_list=task_list)
+    return render_template('user/user_account.html', image_file=image_file, user_info=user_info, task_list=task_list)
 
 
 @todo_bp.route('/add_comment/<int:task_id>', methods=['POST'])
