@@ -1,69 +1,117 @@
-import unittest
-
-from flask_testing import TestCase, LiveServerTestCase
-from flask_login import login_user, logout_user, current_user
+import pytest
+from flask_login import current_user
 from app import create_app, db
-from app.auth.models import User
 
 
-class BaseTest(TestCase):
-    def create_app(self):
-        return create_app(config_name='test')
+@pytest.fixture()
+def app():
+    app = create_app(config_name='test')
 
-    def setUp(self):
+    with app.app_context():
         db.create_all()
-
-    def tearDown(self):
+        yield app
         db.session.remove()
         db.drop_all()
 
 
-# class SecondTest(BaseTest, LiveServerTestCase):
-#     def test_server_is_up_and_running(self):
-#         response = urllib.request.urlopen(self.get_server_url())
-#         self.assertEqual(response.code, 200)
+@pytest.fixture()
+def client(app):
+    return app.test_client()
 
-class ViewTest(BaseTest):
-    def test_setup(self):
-        self.assertTrue(self.app is not None)
-        self.assertTrue(self.client is not None)
-        self.assertTrue(self._ctx is not None)
 
-    def test_index(self):
-        response = self.client.get('/', content_type='html/text')
-        self.assertEqual(response.status_code, 200)
-        # self.assertIn(b'About2', response.data)
-        assert b'About' in response.data
+@pytest.fixture
+def logined_user(client):
+     with client:
+            client.post('/auth/register', data={'username': 'test', 'email': 'test@test.com',  'password': '11111111Ab', "confirm_password": '11111111Ab'}, 
+                follow_redirects=True)
+            client.post('/auth/login', data={'email': 'test@test.com',  'password': '11111111Ab', 'remember': 'y'}, 
+                follow_redirects=True)
 
-    def test_user(self):
-        user = User(username='test', email='test@test.com', password='1111111')
-        db.session.add(user)
-        db.session.commit()
-        user = User.query.filter_by(email='test@test.com').first()
-        assert user.username == 'test'
 
-        login_user(user)
+@pytest.fixture
+def create_cat(client, logined_user):
+    client.post('/task/category/create', data={'name': 'homework'}, 
+                follow_redirects=True)
 
-        assert current_user.is_authenticated == True
-        logout_user()
-        assert current_user.is_authenticated == False
+
+@pytest.fixture
+def create_task(client, logined_user, create_cat):
+    data = {
+        'title': 'Test task',  
+        'description': 'task desc', 
+        'deadline': '2022-12-15',
+        'priority': 1,
+        'progress': 1,
+        'category': 1
+    }
+    resp = client.post('/task/create', data=data, 
+                follow_redirects=True)
+
+
+def test_setup(client):
+    # assert app is not None
+    assert client is not None
     
-    def test_post(self):
-        with self.client:
-            response = self.client.post(
-                    '/auth/register',
-                    data=dict(username="test", email="test.user123@gmail.com", password="password1"),
-                    follow_redirects=True
-                )
-        # self.assertEqual(response.status_code, 200)
-        # self.assertIn('created', response.data)
-        user = User.query.filter_by(email='test.user123@gmail.com').first()
-        assert user.username == 'test'
-    # def test_is_account_route_to_login(self):
-    #     response = self.client.get('/auth/account', follow_redirects=True)
-    #     self.assertRedirects(response, 'http://localhost:5000/')
-        # self.assertIn(b'Login', response.data)
+
+def test_index(client):
+    response = client.get('/')
+    assert response.status_code == 200
+    assert b'About' in response.data
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_user_register_login(client):
+    with client:
+            resp = client.post('/auth/register', data={'username': 'test', 'email': 'test@test.com',  'password': '11111111Ab', "confirm_password": '11111111Ab'}, 
+                follow_redirects=True)
+            assert resp.status_code == 200
+            assert 'Login' in resp.get_data(as_text=True)
+            resp = client.post('/auth/login', data={'email': 'test@test.com',  'password': '11111111Ab', 'remember': 'y'}, 
+                follow_redirects=True)
+            assert resp.status_code == 200
+            assert current_user.username == "test"
+            resp = client.get('/auth/logout', follow_redirects=True)
+            assert resp.status_code == 200
+            assert current_user.is_anonymous       
+
+
+# Testing Task model
+def test_task_create(client, create_cat):
+    data = {
+        'title': 'Test task',  
+        'description': 'task desc', 
+        'deadline': '2022-12-15',
+        'priority': 1,
+        'progress': 1,
+        'category': 1
+    }
+    resp = client.post('/task/create', data=data, 
+                follow_redirects=True)
+    
+    assert "Task successfully added" in resp.get_data(as_text=True)
+
+def test_list_tasks(client, create_task):
+    resp = client.get('/task/', follow_redirects=True)
+
+    assert 'Test task' in resp.get_data(as_text=True)
+    assert 'task desc' not in resp.get_data(as_text=True)
+
+def test_detail_task(client, create_task):
+    resp = client.get('/task/1', follow_redirects=True)
+    assert 'task desc' in resp.get_data(as_text=True)
+
+def test_task_update(client, create_task):
+    data = {
+        'title': 'Test task2',  
+        'description': 'task desc2', 
+        'deadline': '2022-12-15',
+        'priority': 2,
+        'progress': 2,
+        'category': 1
+    }
+    resp = client.post('/task/1/update', data=data, follow_redirects=True)
+    assert 'task desc2' in resp.get_data(as_text=True)
+
+
+def test_task_delete(client, create_task):
+    resp = client.post('/task/1/delete', follow_redirects=True)
+    assert 'Successfully deleted!' in resp.get_data(as_text=True)
