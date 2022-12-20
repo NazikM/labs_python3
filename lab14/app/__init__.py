@@ -6,7 +6,6 @@ from flask_login import LoginManager
 from flask_ckeditor import CKEditor
 
 
-
 ckeditor = CKEditor()
 db = SQLAlchemy()
 migrate = Migrate()
